@@ -31,7 +31,6 @@ class MemoryGame {
   }
 
   checkIfFinished() {
-
     if (this.pairsGuessed === 0) {
       return false;
     }

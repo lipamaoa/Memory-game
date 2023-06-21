@@ -31,6 +31,7 @@ let pairsClicked = null;
 let pairsGuessed = null;
 
 window.addEventListener('load', (event) => {
+  memoryGame.shuffleCards();
   let html = '';
   memoryGame.cards.forEach((pic) => {
     html += `
@@ -72,7 +73,7 @@ window.addEventListener('load', (event) => {
         setTimeout(() => {
           if (isMatch) {
             if (memoryGame.checkIfFinished()) {
-              alert("You Win!!!");
+              alert(`You Win!!! Took you ${memoryGame.pairsClicked} clicks to find ${memoryGame.pairsGuessed} guesses.`);
             }
           }
           else {
