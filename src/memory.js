@@ -1,9 +1,12 @@
 class MemoryGame {
-  constructor(cards) {
+  constructor(cards, numPlayers) {
     this.cards = cards;
-    this.pickedCards = [];
-    this.pairsClicked = 0;
-    this.pairsGuessed = 0;
+    this.players = Array.from({ length: numPlayers }, (_, i) => ({
+      id: i + 1,
+      pairsClicked: 0,
+      pairsGuessed: 0,
+    }));
+    this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
   }
 
   shuffleCards() {
@@ -19,11 +22,21 @@ class MemoryGame {
     return this.cards;
   }
 
-  checkIfPair(card1, card2) {
-    this.pairsClicked += 1;
+  getCurrentPlayer() {
+    return this.players[this.currentPlayerIndex];
+  }
 
+  switchPlayer() {
+    this.currentPlayerIndex =
+      (this.currentPlayerIndex + 1) % this.players.length;
+  }
+
+  checkIfPair(card1, card2) {
+    const currentPlayer = this.getCurrentPlayer();
+
+    currentPlayer.pairsClicked++;
     if (card1 === card2) {
-      this.pairsGuessed += 1;
+      currentPlayer.pairsGuessed += 1;
       return true;
     } else {
       return false;
@@ -31,13 +44,8 @@ class MemoryGame {
   }
 
   checkIfFinished() {
-    if (this.pairsGuessed === 0) {
-      return false;
-    }
-    else if (this.pairsGuessed === this.cards.length / 2) {
-      return true;
-    } else {
-      return false;
-    }
+    const totalGuesses =
+      this.players.reduce((acc, p) => acc + p.pairsGuessed, 0) * 2;
+    return totalGuesses === this.cards.length;
   }
 }
