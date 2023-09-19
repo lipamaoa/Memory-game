@@ -7,6 +7,7 @@ class MemoryGame {
       pairsGuessed: 0,
     }));
     this.currentPlayerIndex = Math.floor(Math.random() * this.players.length);
+
   }
 
   shuffleCards() {
