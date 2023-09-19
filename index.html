@@ -12,25 +12,29 @@
 
 <body>
   <div>
-    <h1>Superhero Memory Game</h1>
+    <h1>Memory Matrix: Flip 'n' Match</h1>
   </div>
   <div class="start-screen">
+    <div id="game-intro">
+      <img src="./img/1.jpg" alt="icon" class="icon" />
+    </div>
+    <div id="players-num">
+      <label for="player-select">Select the numer of players:</label>
+      <select id="player-select">
+        <option value="1">Single Player</option>
+        <option value="2">2 Players</option>
+        <option value="3">3 Players</option>
+        <option value="4">4 Players</option>
+      </select>
+    </div>
     <button id="start-button">Start</button>
   </div>
 
-  <div class="score-container">
-    <!-- <div class="player1-score">
-      <h2>Player 1</h2>
-      <p>Pairs clicked: <span id="player1-pairs-clicked">0</span></p>
-      <p>Pairs guessed: <span id="player1-pairs-guessed">0</span></p>
-    </div>
-    <div class="player2-score">
-      <h2>Player 2</h2>
-      <p>Pairs clicked: <span id="player2-pairs-clicked">0</span></p>
-      <p>Pairs guessed: <span id="player2-pairs-guessed">0</span></p>
-    </div> -->
-  </div>
+  <div class="score-container"></div>
   <div id="memory-board"></div>
+  <div class="end-screen">
+    <button id="restart-button">Restart</button>
+  </div>
 </body>
 
 <script src="src/memory.js" type="text/javascript"></script>
