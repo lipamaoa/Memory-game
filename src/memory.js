@@ -1,6 +1,9 @@
 class MemoryGame {
-  constructor(cards, numPlayers) {
-    this.cards = cards;
+  constructor(cards, numPlayers, numberOfCards) {
+    if (!numberOfCards){
+      numberOfCards = cards.length;
+    }
+    this.cards = cards.slice(0, numberOfCards).flatMap((element) => [element, element]);
     this.players = Array.from({ length: numPlayers }, (_, i) => ({
       id: i + 1,
       pairsClicked: 0,

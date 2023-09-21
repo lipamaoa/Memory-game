@@ -5,9 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Superhero Memory Game</title>
+  <title>Memory Matrix</title>
 
   <link rel="stylesheet" href="./styles/style.css">
+  <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
 </head>
 
 <body>
@@ -27,13 +28,25 @@
         <option value="4">4 Players</option>
       </select>
     </div>
+    <div id="game-difficulty">
+      <label for="game-level">Game Difficulty:</label>
+      <select id="game-level">
+        <option value="6">Beginner</option>
+        <option value="10">Intermediate</option>
+        <option value="12">Advanced</option>
+        <option value="16">Master</option>
+      </select>
+    </div>
     <button id="start-button">Start</button>
   </div>
 
   <div class="score-container"></div>
-  <div id="memory-board"></div>
+  <div id="memory-board">
+  </div>
   <div class="end-screen">
-    <button id="restart-button">Restart</button>
+    <div id="endScreen-content">
+      <button id="restart-button">Restart</button>
+    </div>
   </div>
 </body>
 
