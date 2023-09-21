@@ -14,40 +14,29 @@ const cards = [
   { name: "14", img: "14.jpg" },
   { name: "15", img: "15.jpg" },
   { name: "16", img: "16.jpg" },
-  { name: "2", img: "2.jpg" },
-  { name: "3", img: "3.jpg" },
-  { name: "4", img: "4.jpg" },
-  { name: "5", img: "5.jpg" },
-  { name: "6", img: "6.jpg" },
-  { name: "7", img: "7.jpg" },
-  { name: "8", img: "8.jpg" },
-  { name: "9", img: "9.jpg" },
-  { name: "10", img: "10.jpg" },
-  { name: "11", img: "11.jpg" },
-  { name: "12", img: "12.jpg" },
-  { name: "13", img: "13.jpg" },
-  { name: "14", img: "14.jpg" },
-  { name: "15", img: "15.jpg" },
-  { name: "16", img: "16.jpg" },
 ];
 
 const startButton = document.getElementById("start-button");
 const playerSelect = document.getElementById("player-select");
 const playersNumber = document.getElementById("players-num");
 const restartButton = document.getElementById("restart-button");
-const gameIntro= document.getElementById("game-intro");
+const gameIntro = document.getElementById("game-intro");
+const gameLevel = document.getElementById("game-level");
+const levelSelect = document.getElementById("game-difficulty");
 
 startButton.addEventListener("click", (event) => {
   playersNumber.style.display = "none";
-  gameIntro.style.display="none";
-  startButton.style.display="none";
+  gameIntro.style.display = "none";
+  startButton.style.display = "none";
+  levelSelect.style.display = "none";
 
   const boardGame = document.getElementById("memory-board");
   boardGame.style.display = "block";
 
   const numPlayers = playerSelect.value;
+  const gameDifficulty = gameLevel.value;
 
-  const memoryGame = new MemoryGame(cards, numPlayers);
+  const memoryGame = new MemoryGame(cards, numPlayers, gameDifficulty);
   let selectedCards = [];
   let currentPlayerIndex = memoryGame.getCurrentPlayer().id;
 
@@ -55,15 +44,38 @@ startButton.addEventListener("click", (event) => {
   let html = "";
   memoryGame.cards.forEach((pic) => {
     html += `
+    
     <div class="card" data-card-name="${pic.name}">
     <div class="back" name="${pic.img}"></div>
     <div class="front" style="background-image: url(img/${pic.img});background-repeat: no-repeat;background-size: cover;"></div>
     </div>
+    
     `;
   });
 
-  // Add all the divs to the HTML
   document.querySelector("#memory-board").innerHTML = html;
+
+  const gameCards = document.querySelectorAll(".card");
+  console.log(gameCards);
+
+  const numRows = Math.ceil(Math.sqrt(gameCards.length) - 1);
+
+  console.log(numRows);
+  const numCols = Math.ceil(gameCards.length / numRows);
+  console.log(numCols);
+
+  const cardWidth = parseFloat(getComputedStyle(gameCards[0]).width);
+  const cardHeight = parseFloat(getComputedStyle(gameCards[0]).height);
+  const spacing = 20;
+
+  const boardWidth = numCols * (cardWidth + 9) - spacing;
+  const boardHeight = numRows * (cardHeight + 9) - spacing;
+
+  const board = document.querySelector("#memory-board");
+  board.style.width = `${boardWidth}px`;
+  board.style.height = `${boardHeight}px`;
+
+  // Add all the divs to the HTML
 
   let div = "";
   memoryGame.players.forEach((player) => {
@@ -132,21 +144,28 @@ startButton.addEventListener("click", (event) => {
             if (memoryGame.checkIfFinished()) {
               const newP = document.createElement("p");
               const newContent = document.createTextNode(
-                `Player ${currentPlayerIndex} Wins!!! Took you ${memoryGame.players[currentPlayerIndex].pairsClicked} clicks to find ${memoryGame.players[currentPlayerIndex].pairsGuessed} guesses.`
+                `Player ${currentPlayerIndex} Wins!!! `
               );
+
+              // Took you ${memoryGame.players[currentPlayerIndex].pairsClicked} clicks to find ${memoryGame.players[currentPlayerIndex].pairsGuessed} guesses.`
 
               const message = newP.appendChild(newContent);
 
               const endScreen = document.querySelector(".end-screen");
-              console.log("endScreen");
+              const endScreenContent =
+                document.querySelector("#endScreen-content");
+              console.log(endScreenContent);
               endScreen.style.display = "block";
-              endScreen.appendChild(message);
+              endScreenContent.prepend(message);
 
               restartButton.addEventListener("click", () => {
                 endScreen.style.display = "none";
                 boardGame.style.display = "none";
                 scoreContainer.style.display = "none";
                 playersNumber.style.display = "block";
+                gameIntro.style.display = "block";
+                startButton.style.display = "block";
+                levelSelect.style.display = "block";
               });
             }
           } else {
@@ -154,7 +173,7 @@ startButton.addEventListener("click", (event) => {
             selectedCards[1].classList.toggle("turned");
           }
           selectedCards = [];
-        }, 500);
+        }, 1000);
       }
     });
   });
